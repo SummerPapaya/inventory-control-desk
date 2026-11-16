@@ -185,7 +185,7 @@ select { padding-right: 20px; cursor: pointer; }
 .kpi .bar > i.bad { background: var(--red); }
 
 /* ---------------------------------------------------------------- 表格 */
-.table-wrap { overflow: auto; max-height: none; }
+.table-wrap { overflow-x: auto; overflow-y: auto; max-width: 100%; max-height: none; }
 table.tbl { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 11.5px; }
 table.tbl thead th {
   position: sticky; top: 0; z-index: 2; background: var(--panel-2);
@@ -455,4 +455,22 @@ table.tbl.dict-table td a { overflow-wrap: anywhere; }
 @media (max-width: 1180px) {
   .ev-limit { grid-template-columns: 26px minmax(0,1fr); gap: 7px; }
   .ev-tag { display: block; margin: 0 0 2px; }
+}
+
+/* -------------------------------- 窄屏：表格横向滚动 + 顶栏紧凑（768px 溢出修复） */
+/* 已被 .table-wrap 包裹的表格由上方 overflow-x:auto 承载；此处覆盖字典表、
+   抽屉明细、证据页复算表等直接挂在 .card-body / .drawer-body / .ev-recheck
+   下的裸表格（含孙级），避免窄屏把栅格撑破。 */
+.card-body:has(table.tbl),
+.drawer-body:has(table.tbl),
+.ev-recheck:has(table.tbl) { overflow-x: auto; min-width: 0; }
+
+@media (max-width: 900px) {
+  .topbar { gap: 8px; padding: 0 10px; overflow-x: auto; overflow-y: hidden; }
+  .brand { min-width: 0; }
+  .brand-sub { display: none; }
+  .top-meta { gap: 8px; font-size: 10px; }
+  .top-meta .sep { display: none; }
+  .snapshot-badge { padding: 3px 5px; }
+  .topbar .btn { padding: 0 7px; font-size: 11px; }
 }
